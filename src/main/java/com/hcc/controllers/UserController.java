@@ -1,12 +1,11 @@
-// File: controllers/UserController.java
 package com.hcc.controllers;
 
 import com.hcc.dtos.UserDTO;
 import com.hcc.entities.User;
+import com.hcc.exceptions.UserAlreadyExistsException;
 import com.hcc.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,48 +21,29 @@ public class UserController {
         this.userService = userService;
     }
 
-    // Get all users
     @GetMapping
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers()
                 .stream()
-                .map(user -> new UserDTO(
-                        user.getId(),
-                        user.getUsername(),
-                        user.getAuthorities()
-                                .stream()
-                                .map(auth -> auth.getAuthority())
-                                .collect(Collectors.toList())
-                ))
+                .map(this::mapToUserDTO)
                 .collect(Collectors.toList());
     }
 
-    // Get user by username
-    @GetMapping("/{username}")
-    public UserDTO getUserByUsername(@PathVariable String username) {
-        return userService.findByUsername(username)
-                .map(user -> new UserDTO(
-                        user.getId(),
-                        user.getUsername(),
-                        user.getAuthorities()
-                                .stream()
-                                .map(auth -> auth.getAuthority())
-                                .collect(Collectors.toList())
-                ))
-                .orElseThrow(() -> new RuntimeException("User not found"));
-    }
-
-    // Create a new user
     @PostMapping
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        User newUser = userService.createUser(userDTO);
-        return new UserDTO(
-                newUser.getId(),
-                newUser.getUsername(),
-                newUser.getAuthorities()
-                        .stream()
-                        .map(auth -> auth.getAuthority())
-                        .collect(Collectors.toList())
-        );
+        try {
+            User newUser = userService.createUser(userDTO);
+            return mapToUserDTO(newUser);
+        } catch (UserAlreadyExistsException e) {
+            throw new RuntimeException("User with username '" + userDTO.getUsername() + "' already exists!", e);
+        }
+    }
+
+    private UserDTO mapToUserDTO(User user) {
+        List<String> authorities = user.getAuthorities()
+                .stream()
+                .map(auth -> auth.getAuthority())
+                .collect(Collectors.toList());
+        return new UserDTO(user.getId(), user.getUsername(), authorities);
     }
 }

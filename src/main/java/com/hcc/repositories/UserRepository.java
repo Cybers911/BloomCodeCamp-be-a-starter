@@ -1,4 +1,3 @@
-// File: repositories/UserRepository.java
 package com.hcc.repositories;
 
 import com.hcc.entities.User;

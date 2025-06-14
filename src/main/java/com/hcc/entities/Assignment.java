@@ -1,6 +1,7 @@
 package com.hcc.entities;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -131,15 +132,18 @@ public class Assignment {
     // Overriding toString for proper logging/debugging representation
     @Override
     public String toString() {
-        return "Assignment{" +
-                "id=" + id +
-                ", status='" + status + '\'' +
-                ", number=" + number +
-                ", githubUrl='" + githubUrl + '\'' +
-                ", branch='" + branch + '\'' +
-                ", reviewVideoUrl='" + reviewVideoUrl + '\'' +
-                ", user=" + (user != null ? user.getId() : null) +
-                ", codeReviewer=" + (codeReviewer != null ? codeReviewer.getId() : null) +
-                '}';
+        return null;
+    }
+
+    public LocalDate getDueDate() {
+    }
+
+    public String getAssignmentName() {
+    }
+
+    public void setAssignmentName(String assignmentName) {
+    }
+
+    public void setDueDate(LocalDate dueDate) {
     }
 }

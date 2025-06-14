@@ -1,120 +1,86 @@
-// File: dtos/AssignmentDTO.java
 package com.hcc.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotNull;
-import java.util.Objects;
+import com.hcc.entities.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class AssignmentDTO {
 
+    // Fields
     private Long id;
-
-    @NotBlank(message = "Status cannot be blank")
+    private String assignmentName;
     private String status;
+    private LocalDate dueDate;
+    private String associatedUsername;
 
-    @NotNull(message = "Number must be specified")
-    private Integer number;
+    // Constants for assignment statuses
+    public static final String STATUS_PENDING = "Pending";
+    public static final String STATUS_COMPLETED = "Completed";
 
-    private String githubUrl;
-    private String branch;
-    private String reviewVideoUrl;
-
-    // Default no-args constructor (required for frameworks like Jackson)
-    public AssignmentDTO() {
+    // Constructor: Initializes from fields
+    public AssignmentDTO(Long id, String assignmentName, String status, LocalDate dueDate, String associatedUsername) {
+        this.id = id;
+        this.assignmentName = assignmentName;
+        this.status = status;
+        this.dueDate = dueDate;
+        this.associatedUsername = associatedUsername;
     }
 
-    // Full constructor
+    // Constructor: Initializes from Assignment entity
+    public AssignmentDTO(com.hcc.entities.Assignment assignment, UserDTO userDTO) {
+        this.id = assignment.getId();
+        this.assignmentName = assignment.getAssignmentName();
+        this.status = assignment.getStatus();
+        this.dueDate = assignment.getDueDate();
+        this.associatedUsername = userDTO.getUsername();
+    }
+
     public AssignmentDTO(Long id, String status, Integer number, String githubUrl, String branch, String reviewVideoUrl) {
-        this.id = id;
-        this.status = status;
-        this.number = number;
-        this.githubUrl = githubUrl;
-        this.branch = branch;
-        this.reviewVideoUrl = reviewVideoUrl;
     }
 
-    // Getters and setters
-    public Long getId() {
-        return id;
+    // Factory method to convert from entity with a UserDTO
+    public static AssignmentDTO fromEntity(com.hcc.entities.Assignment assignment, UserDTO userDTO) {
+        return new AssignmentDTO(
+                assignment.getId(),
+                assignment.getAssignmentName(),
+                assignment.getStatus(),
+                assignment.getDueDate(),
+                userDTO.getUsername()
+        );
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    // Converts DTO to entity
+    public com.hcc.entities.Assignment toAssignmentEntity(User user) {
+        com.hcc.entities.Assignment assignment = new com.hcc.entities.Assignment();
+        assignment.setId(this.id);
+        assignment.setAssignmentName(this.assignmentName);
+        assignment.setStatus(this.status);
+        assignment.setDueDate(this.dueDate);
+        assignment.setUser(user);
+        return assignment;
     }
 
     public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
     }
 
     public String getGithubUrl() {
-        return githubUrl;
-    }
-
-    public void setGithubUrl(String githubUrl) {
-        this.githubUrl = githubUrl;
     }
 
     public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
     }
 
     public String getReviewVideoUrl() {
-        return reviewVideoUrl;
+    }
+    public String getStatus() {
     }
 
-    public void setReviewVideoUrl(String reviewVideoUrl) {
-        this.reviewVideoUrl = reviewVideoUrl;
-    }
+    // Additional methods for assignment-specific operations...
 
-    // Overridden toString method for logging and debugging
-    @Override
-    public String toString() {
-        return "AssignmentDTO{" +
-                "id=" + id +
-                ", status='" + status + '\'' +
-                ", number=" + number +
-                ", githubUrl='" + githubUrl + '\'' +
-                ", branch='" + branch + '\'' +
-                ", reviewVideoUrl='" + reviewVideoUrl + '\'' +
-                '}';
-    }
 
-    // Overridden equals method for object comparison
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AssignmentDTO that = (AssignmentDTO) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(status, that.status) &&
-                Objects.equals(number, that.number) &&
-                Objects.equals(githubUrl, that.githubUrl) &&
-                Objects.equals(branch, that.branch) &&
-                Objects.equals(reviewVideoUrl, that.reviewVideoUrl);
-    }
-
-    // Overridden hashCode method for hashing
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, status, number, githubUrl, branch, reviewVideoUrl);
-    }
 }
