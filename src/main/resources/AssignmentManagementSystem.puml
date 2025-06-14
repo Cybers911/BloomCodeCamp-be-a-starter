@@ -1,0 +1,42 @@
+@startuml
+class AssignmentController {
+    +createAssignment(AssignmentDTO): ResponseEntity<AssignmentDTO>
+}
+
+class AssignmentService {
+    +createAssignment(AssignmentDTO): AssignmentDTO
+    -mapToEntity(AssignmentDTO): Assignment
+    -mapToDTO(Assignment): AssignmentDTO
+}
+
+class AssignmentRepository {
+    +save(Assignment): Assignment
+    +findById(Long): Optional<Assignment>
+}
+
+class Assignment {
+    +id : Long
+    +status : String
+    +number : Integer
+    +githubUrl : String
+    +branch : String
+    +reviewVideoUrl : String
+    +user : User
+    +codeReviewer : User
+}
+
+class AssignmentDTO {
+    +id : Long
+    +status : String
+    +number : Integer
+    +githubUrl : String
+    +branch : String
+    +reviewVideoUrl : String
+    +userId : Long
+    +codeReviewerId : Long
+}
+
+AssignmentController -> AssignmentService : calls
+AssignmentService -> AssignmentRepository : calls
+AssignmentService --> Assignment : maps to/from
+@enduml

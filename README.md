@@ -17,6 +17,7 @@ To set this project up you will need to clone it to your local computer and make
      - this should be run inside a terminal from the root of the project directory.
      - for information about docker compose please see the [documentation](https://docs.docker.com/compose/)
 5. Open the project inside intellij
+6. 
 6. Go to the `application.properties` file and follow the instructions to make your dev profile making sure that the url is pointing to the same port as the docker compose file `5550`.
    ![copy text](app-properties.png) 
 7. look over the code base and familiarize yourself with [spring boot docs](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/). 

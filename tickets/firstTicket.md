@@ -42,7 +42,8 @@ Deliver the following Domain Objects (Entities / DTO / ENUM):
 
 # Guidance
 
-Your job is to begin work on the LMS by setting up the domain objects shown above. 
+Your job is to begin work on the LMS by setting
+up the domain objects shown above. 
 
 ## Subtasks
 

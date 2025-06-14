@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 // this is an example controller feel free to delete this once you have created your own.
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/v1/hello")
 public class HelloController {
     @Autowired
     HelloService helloService;
     @GetMapping
-    ResponseEntity<?> welcomeLearner() {
+    ResponseEntity<Hello> welcomeLearner() {
+
         Hello greeting = helloService.greetLearner();
         return ResponseEntity.ok(greeting);
     }
