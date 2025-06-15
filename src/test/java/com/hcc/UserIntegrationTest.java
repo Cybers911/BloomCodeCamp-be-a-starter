@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Collections;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -41,13 +42,11 @@ class UserIntegrationTest {
     @Test
     void shouldCreateUser_whenValidRequestIsSent() throws Exception {
         // Arrange
-        String userJson = """
-                {
-                    "username": "newUser",
-                    "password": "password",
-                    "authorities": ["ROLE_USER"]
-                }
-                """;
+        String userJson = "{\n" +
+                          "    \"username\": \"newUser\",\n" +
+                          "    \"password\": \"password\",\n" +
+                          "    \"authorities\": [\"ROLE_USER\"]\n" +
+                          "}\n";
 
         // Act & Assert
         mockMvc.perform(post("/api/users")
@@ -66,13 +65,11 @@ class UserIntegrationTest {
     void shouldReturnError_whenUsernameAlreadyExists() throws Exception {
         // Arrange
         userRepository.save(new User("existingUser", "password", Collections.emptyList()));
-        String userJson = """
-                {
-                    "username": "existingUser",
-                    "password": "password",
-                    "authorities": ["ROLE_USER"]
-                }
-                """;
+        String userJson = "{\n" +
+                          "    \"username\": \"existingUser\",\n" +
+                          "    \"password\": \"password\",\n" +
+                          "    \"authorities\": [\"ROLE_USER\"]\n" +
+                          "}";
 
         // Act & Assert
         mockMvc.perform(post("/api/users")

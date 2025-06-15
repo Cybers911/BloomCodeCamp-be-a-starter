@@ -7,8 +7,8 @@ services:
     ports:
       - '5550:5432'
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=hello
+      - POSTGRES_PASSWORD=hello
       - POSTGRES_DB=api-starter-0121
     volumes:
       - ./docker/pg/postgres.conf:/etc/postgresql/postgresql.conf

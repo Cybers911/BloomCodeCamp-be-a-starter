@@ -5,11 +5,13 @@ import com.hcc.dtos.UserDTO;
 import com.hcc.entities.User;
 import com.hcc.exceptions.UserAlreadyExistsException;
 import com.hcc.repositories.UserRepository;
+import com.hcc.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +50,8 @@ class UserServiceTest {
     void shouldThrowException_whenUsernameAlreadyExists() {
         // Arrange
         UserDTO userDTO = new UserDTO(null, "existingUser", "password", null);
-        when(userRepository.findByUsername("existingUser")).thenReturn(Optional.of(new User(userDTO.getUsername(), hashedPassword, authorities)));
+        String hashedPassword = new BCryptPasswordEncoder().encode("password");
+        when(userRepository.findByUsername("existingUser")).thenReturn(Optional.of(new User(userDTO.getUsername(), hashedPassword, Collections.emptyList())));
 
         // Act & Assert
         assertThrows(UserAlreadyExistsException.class, () -> userService.createUser(userDTO));
