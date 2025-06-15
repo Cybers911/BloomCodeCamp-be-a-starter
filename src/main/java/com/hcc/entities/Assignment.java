@@ -35,12 +35,17 @@ public class Assignment {
     @JoinColumn(name = "code_reviewer_id", nullable = true)
     private User codeReviewer;
 
+    @Column(name = "due_date")
+    private LocalDate dueDate;
+
+    private String assignmentName;
+
     // Default Constructor - Required by JPA
     public Assignment() {
     }
 
     // Parameterized Constructor
-    public Assignment(String status, Integer number, String githubUrl, String branch, String reviewVideoUrl, User user, User codeReviewer) {
+    public Assignment(String status, Integer number, String githubUrl, String branch, String reviewVideoUrl, User user, User codeReviewer, LocalDate dueDate, String assignmentName) {
         this.status = status;
         this.number = number;
         this.githubUrl = githubUrl;
@@ -48,6 +53,8 @@ public class Assignment {
         this.reviewVideoUrl = reviewVideoUrl;
         this.user = user;
         this.codeReviewer = codeReviewer;
+        this.dueDate = dueDate;
+        this.assignmentName = assignmentName;
     }
 
     // Getters and Setters
@@ -115,6 +122,22 @@ public class Assignment {
         this.codeReviewer = codeReviewer;
     }
 
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public String getAssignmentName() {
+        return assignmentName;
+    }
+
+    public void setAssignmentName(String assignmentName) {
+        this.assignmentName = assignmentName;
+    }
+
     // Overriding equals and hashCode for JPA entity comparisons
     @Override
     public boolean equals(Object o) {
@@ -132,18 +155,7 @@ public class Assignment {
     // Overriding toString for proper logging/debugging representation
     @Override
     public String toString() {
-        return null;
-    }
-
-    public LocalDate getDueDate() {
-    }
-
-    public String getAssignmentName() {
-    }
-
-    public void setAssignmentName(String assignmentName) {
-    }
-
-    public void setDueDate(LocalDate dueDate) {
+        return String.format("Assignment{id=%d, status='%s', number=%d, githubUrl='%s', branch='%s', reviewVideoUrl='%s', user=%s, codeReviewer=%s, dueDate=%s, assignmentName='%s'}",
+                id, status, number, githubUrl, branch, reviewVideoUrl, user, codeReviewer, dueDate, assignmentName);
     }
 }

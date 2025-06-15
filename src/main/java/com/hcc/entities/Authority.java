@@ -1,16 +1,9 @@
 package com.hcc.entities;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "authorities")
-@Getter
-@Setter
-@NoArgsConstructor
 public class Authority {
 
     @Id
@@ -23,7 +16,37 @@ public class Authority {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // Default Constructor
+    public Authority() {
+    }
+
+    // Constructor with 'authority'
     public Authority(String authority) {
         this.authority = authority;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

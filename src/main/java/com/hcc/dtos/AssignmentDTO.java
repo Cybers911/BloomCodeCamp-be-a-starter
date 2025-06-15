@@ -1,86 +1,100 @@
 package com.hcc.dtos;
 
-import com.hcc.entities.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class AssignmentDTO {
 
-    // Fields
     private Long id;
-    private String assignmentName;
     private String status;
+    private Integer number;
+    private String githubUrl;
+    private String branch;
+    private String reviewVideoUrl;
     private LocalDate dueDate;
-    private String associatedUsername;
+    private String assignmentName;
 
-    // Constants for assignment statuses
-    public static final String STATUS_PENDING = "Pending";
-    public static final String STATUS_COMPLETED = "Completed";
-
-    // Constructor: Initializes from fields
-    public AssignmentDTO(Long id, String assignmentName, String status, LocalDate dueDate, String associatedUsername) {
-        this.id = id;
-        this.assignmentName = assignmentName;
-        this.status = status;
-        this.dueDate = dueDate;
-        this.associatedUsername = associatedUsername;
+    // Default Constructor
+    public AssignmentDTO() {
     }
 
-    // Constructor: Initializes from Assignment entity
-    public AssignmentDTO(com.hcc.entities.Assignment assignment, UserDTO userDTO) {
-        this.id = assignment.getId();
-        this.assignmentName = assignment.getAssignmentName();
-        this.status = assignment.getStatus();
-        this.dueDate = assignment.getDueDate();
-        this.associatedUsername = userDTO.getUsername();
+    // Parameterized Constructor
+    public AssignmentDTO(Long id, String status, Integer number, String githubUrl, String branch,
+                         String reviewVideoUrl, LocalDate dueDate, String assignmentName) {
+        this.id = id;
+        this.status = status;
+        this.number = number;
+        this.githubUrl = githubUrl;
+        this.branch = branch;
+        this.reviewVideoUrl = reviewVideoUrl;
+        this.dueDate = dueDate;
+        this.assignmentName = assignmentName;
     }
 
     public AssignmentDTO(Long id, String status, Integer number, String githubUrl, String branch, String reviewVideoUrl) {
     }
 
-    // Factory method to convert from entity with a UserDTO
-    public static AssignmentDTO fromEntity(com.hcc.entities.Assignment assignment, UserDTO userDTO) {
-        return new AssignmentDTO(
-                assignment.getId(),
-                assignment.getAssignmentName(),
-                assignment.getStatus(),
-                assignment.getDueDate(),
-                userDTO.getUsername()
-        );
+    // Getters and Setters for all fields
+    public Long getId() {
+        return id;
     }
 
-    // Converts DTO to entity
-    public com.hcc.entities.Assignment toAssignmentEntity(User user) {
-        com.hcc.entities.Assignment assignment = new com.hcc.entities.Assignment();
-        assignment.setId(this.id);
-        assignment.setAssignmentName(this.assignmentName);
-        assignment.setStatus(this.status);
-        assignment.setDueDate(this.dueDate);
-        assignment.setUser(user);
-        return assignment;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public String getGithubUrl() {
+        return githubUrl;
+    }
+
+    public void setGithubUrl(String githubUrl) {
+        this.githubUrl = githubUrl;
     }
 
     public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 
     public String getReviewVideoUrl() {
+        return reviewVideoUrl;
     }
-    public String getStatus() {
+
+    public void setReviewVideoUrl(String reviewVideoUrl) {
+        this.reviewVideoUrl = reviewVideoUrl;
     }
 
-    // Additional methods for assignment-specific operations...
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
 
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
 
+    public String getAssignmentName() {
+        return assignmentName;
+    }
+
+    public void setAssignmentName(String assignmentName) {
+        this.assignmentName = assignmentName;
+    }
 }
