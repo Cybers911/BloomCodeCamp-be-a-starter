@@ -1,34 +1,26 @@
-
-
-
-
 package com.hcc.utils;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomPasswordEncoder  extends BCryptPasswordEncoder
-{
+public class CustomPasswordEncoder implements PasswordEncoder {
 
+    private final BCryptPasswordEncoder delegate;
 
-
-    public CustomPasswordEncoder(){ super();
-        this.passwordEncoder = new BCryptPasswordEncoder();
+    // Constructor initializes the BCryptPasswordEncoder
+    public CustomPasswordEncoder() {
+        this.delegate = new BCryptPasswordEncoder();
     }
 
-    public String encodePassword(String rawPassword){
-        return passwordEncoder.encode(rawPassword);
+    @Override
+    public String encode(CharSequence rawPassword) {
+        return delegate.encode(rawPassword); // Delegates the encoding to BCryptPasswordEncoder
     }
 
-    public boolean matches(String rawPassword, String encodedPassword){
-        return passwordEncoder.matches(rawPassword, encodedPassword);
-    }
-
-
-    public BCryptPasswordEncoder getPasswordEncoder() {
-
-        return passwordEncoder;
-
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        return delegate.matches(rawPassword, encodedPassword); // Delegates the matching
     }
 }
