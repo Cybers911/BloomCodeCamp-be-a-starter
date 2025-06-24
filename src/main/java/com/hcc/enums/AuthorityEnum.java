@@ -1,6 +1,6 @@
-//package com.hcc.enums;
+package com.hcc.enums;
 //
-//public enum AuthorityEnum {
-//    ROLE_LEARNER,
-//    ROLE_REVIEWER;
-//}
+public enum AuthorityEnum {
+    ROLE_LEARNER,
+    ROLE_REVIEWER;
+}
